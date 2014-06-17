@@ -25,7 +25,7 @@ geoseeds.Helpers.CalculateRandomSeedPosition = function ( center, distance )
 {
     var angle = 360 * Math.random();
     var randDistance =  distance * Math.random();
-    return this.CalculateSeedPosition( center, distance, angle);
+    return this.CalculateSeedPosition( center, randDistance, angle);
 }
 geoseeds.Helpers.CalculateSeedPosition = function ( center, distance, angle)
 {
