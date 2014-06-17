@@ -21,13 +21,28 @@ geoseeds.Helpers.ER = 6378137.0;   //  WGS-84 ellipsoid parameters
 geoseeds.Helpers.DTR = Math.PI / 180;
 geoseeds.Helpers.RTD = 180 / Math.PI;
 
-geoseeds.Helpers.CalculateRandomSeedPosition = function ( center, distance )
+geoseeds.Helpers.CalculateRandomSeedPosition = function ( center, distance, shape )
 {
-    var angle = 360 * Math.random();
-    var randDistance =  distance * Math.random();
-    return this.CalculateSeedPosition( center, randDistance, angle);
+    
+    if('square' == shape)
+    {
+        var randDistanceP =  distance * Math.random() * Math.random() > 0.5 ? 1 : -1;
+        var randDistanceM =  distance * Math.random() * Math.random() > 0.5 ? 1 : -1;
+        
+        return this.CalculateSeedPositionSquare( center, randDistanceP, randDistanceM);
+    }
+    else if('circle' == shape)
+    {
+        var angle = 360 * Math.random();
+        var randDistance =  distance * Math.random();
+    
+        return this.CalculateSeedPositionCircle( center, randDistance, angle);
+    }
+    else 
+        return null;
+        
 }
-geoseeds.Helpers.CalculateSeedPosition = function ( center, distance, angle)
+geoseeds.Helpers.CalculateSeedPositionCircle = function ( center, distance, angle)
 {
     var latA = center.lat * this.DTR;
     var lonA = center.lon * this.DTR;
@@ -45,6 +60,15 @@ geoseeds.Helpers.CalculateSeedPosition = function ( center, distance, angle)
     var lon = ((lonA + dlon + Math.PI) % (Math.PI * 2)) - Math.PI;
 
     return {lat: lat * this.RTD, lon: lon * this.RTD};
+}
+geoseeds.Helpers.CalculateSeedPositionSquare = function ( center, distanceP, distanceM )
+{
+    var latA = center.lat * this.DTR;
+    var lonA = center.lon * this.DTR;
+    var angDistanceP = distanceP * this.DTR;
+    var angDistanceM = distanceM * this.DTR;
+
+    return {lat: (latA+angDistanceP) * this.RTD, lon: (lonA+angDistanceM) * this.RTD};
 }
 
 
