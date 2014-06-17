@@ -3,15 +3,16 @@
 // exported module
 var geoseeds = {};
 geoseeds.version = "1.0.0";
-geoseeds.add = function (lat,lon,radius,amount) {
+geoseeds.add = function (lat,lon,radius,amount,shape) {
     if (typeof amount == 'undefined') { amount = 1; }
     if (typeof lon == 'undefined') { lon = 0; }
     if (typeof lat == 'undefined') { lat = 0; }
     if (typeof radius == 'undefined') { radius = 1000; } // 1 km
+    if (typeof shape == 'undefined') { shape = 'circle'; } // 1 km
     
     var seeds = [];
     for(var i=0;i<amount;++i)
-        seeds.push(geoseeds.Helpers.CalculateRandomSeedPosition({lat: lat, lon: lon},radius));
+        seeds.push(geoseeds.Helpers.CalculateRandomSeedPosition({lat: lat, lon: lon},radius,shape));
 
     return seeds;
     };
