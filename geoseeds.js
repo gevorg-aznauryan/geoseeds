@@ -16,6 +16,13 @@ geoseeds.add = function (lat,lon,radius,amount,shape) {
 
     return seeds;
     };
+geoseeds.move = function (lat,lon,distance,angle) {
+    if (typeof lon == 'undefined') { lon = 0; }
+    if (typeof lat == 'undefined') { lat = 0; }
+    if (typeof distance == 'undefined') { distance = 0; } // 10 m
+    
+    return geoseeds.Helpers.CalculateSeedPositionCircle({lat: lat, lon: lon},distance,angle);
+    };
 
 geoseeds.Helpers = {};
 geoseeds.Helpers.ER = 6378137.0;   //  WGS-84 ellipsoid parameters
